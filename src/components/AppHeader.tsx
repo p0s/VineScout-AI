@@ -13,6 +13,9 @@ export function AppHeader() {
   return (
     <header className="site-header">
       <Link className="brand" href="/">
+        <span className="brand-mark" aria-hidden="true">
+          V
+        </span>
         <strong>VineScout AI</strong>
         <span>Find, verify, and win Western vineyard deals.</span>
       </Link>

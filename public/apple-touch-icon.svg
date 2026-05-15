@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="VineScout AI">
+  <rect width="180" height="180" rx="40" fill="#1b1a17"/>
+  <path d="M39 34h102c-9 50-40 88-51 108C76 121 45 84 39 34Z" fill="#8b1e3f"/>
+  <path d="M62 50c14 40 22 64 28 76 6-12 17-36 28-76" fill="none" stroke="#f7f2ea" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M113 41c18 1 29 13 32 29-18 3-35-3-43-18 2-6 6-10 11-11Z" fill="#2f7d52"/>
+  <circle cx="57" cy="126" r="9" fill="#bf8b30"/>
+  <circle cx="80" cy="143" r="9" fill="#bf8b30"/>
+  <circle cx="103" cy="126" r="9" fill="#bf8b30"/>
+</svg>
