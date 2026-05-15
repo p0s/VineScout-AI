@@ -69,10 +69,3 @@ E2E_BASE_URL=https://vinescout-ai.vercel.app npm run test:e2e
 ## Optional Supabase
 
 The MVP runs from seeded local data by default. A starter schema is available at `supabase/migrations/0001_vinescout_schema.sql` for teams that want to wire durable storage after the hackathon demo.
-
-## Files
-
-- `SPEC.md` — canonical product spec.
-- `STATUS.md` — backlog and current status.
-- `AGENTS.md` — agent coding rules.
-- `DEMO_GUIDE.md` — demo narration, video/voice notes, and Vercel deployment checklist.
