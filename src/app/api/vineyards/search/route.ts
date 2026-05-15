@@ -1,0 +1,7 @@
+import { NextResponse } from "next/server";
+import { searchVineyards } from "@/lib/store";
+
+export async function POST(request: Request) {
+  const body = await request.json().catch(() => ({}));
+  return NextResponse.json({ vineyards: searchVineyards(body) });
+}
