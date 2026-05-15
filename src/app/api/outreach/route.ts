@@ -1,13 +1,10 @@
 import { NextResponse } from "next/server";
 import { runAi } from "@/lib/ai";
-import { hostedWriteGuard } from "@/lib/api-security";
 import { buildOutreach } from "@/lib/generators";
 import { demoBuyerProfile } from "@/lib/seed-data";
 import { getVineyard } from "@/lib/store";
 
 export async function POST(request: Request) {
-  const blocked = hostedWriteGuard(request);
-  if (blocked) return blocked;
   const body = (await request.json().catch(() => ({}))) as { opportunityId?: string };
   if (!body.opportunityId) return NextResponse.json({ error: "opportunityId is required" }, { status: 400 });
   const vineyard = getVineyard(body.opportunityId);

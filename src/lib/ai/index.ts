@@ -24,9 +24,12 @@ export async function runAi<T = unknown>(
 }
 
 export function getProviderStatus() {
+  const orbitaiConfigured = Boolean(process.env.ORBITAI_API_KEY && process.env.ORBITAI_API_BASE_URL);
+  const openaiConfigured = Boolean(process.env.OPENAI_API_KEY);
+
   return {
-    orbitai: Boolean(process.env.ORBITAI_API_KEY && process.env.ORBITAI_API_BASE_URL),
-    openai: Boolean(process.env.OPENAI_API_KEY),
-    defaultProvider: process.env.ORBITAI_API_KEY ? "orbitai" : process.env.OPENAI_API_KEY ? "openai" : "mock"
+    orbitai: orbitaiConfigured,
+    openai: openaiConfigured,
+    defaultProvider: orbitaiConfigured ? "orbitai" : openaiConfigured ? "openai" : "mock"
   };
 }

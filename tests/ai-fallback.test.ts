@@ -1,5 +1,9 @@
-import { describe, expect, it, vi } from "vitest";
-import { runAi } from "@/lib/ai";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { getProviderStatus, runAi } from "@/lib/ai";
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
 
 describe("AI provider fallback", () => {
   it("falls back to deterministic mock without server keys", async () => {
@@ -13,5 +17,17 @@ describe("AI provider fallback", () => {
     expect(response.ok).toBe(true);
     expect(response.provider).toBe("mock");
     expect(response.usedFallback).toBe(true);
+  });
+
+  it("does not select OrbitAI as default unless the key and base URL are configured", () => {
+    vi.stubEnv("ORBITAI_API_KEY", "present");
+    vi.stubEnv("ORBITAI_API_BASE_URL", "");
+    vi.stubEnv("OPENAI_API_KEY", "");
+
+    expect(getProviderStatus()).toMatchObject({
+      orbitai: false,
+      openai: false,
+      defaultProvider: "mock"
+    });
   });
 });
