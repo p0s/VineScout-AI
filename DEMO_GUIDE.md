@@ -2,7 +2,7 @@
 
 ## Local demo path
 
-1. Open `/app`.
+1. Open `/app` locally or `https://vinescout-ai.vercel.app/app` on Vercel.
 2. Show the DragonCellar Premium profile summary.
 3. Go to `/app/search` and filter the ranked fictional vineyard portfolio.
 4. Open `/app/vineyards/domaine-valclaire`.
@@ -45,3 +45,4 @@ The same workflow generates a deal memo, owner outreach, watchlist alerts, and a
 4. Do not create `NEXT_PUBLIC_` variables for secrets.
 5. Build command: `npm run build`.
 6. The app runs without credentials in seeded demo mode.
+7. Smoke-test the deployment with `E2E_BASE_URL=https://vinescout-ai.vercel.app npm run test:e2e`.

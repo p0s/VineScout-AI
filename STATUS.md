@@ -2,7 +2,7 @@
 
 ## Current state
 
-Working MVP implemented as a Next.js + TypeScript app with seeded demo mode, deterministic scoring, server-only optional AI providers, OrbitAI handoff, memos, outreach, watchlist alerts, and developer API.
+Working MVP implemented as a Next.js + TypeScript app with seeded demo mode, deterministic scoring, server-only optional AI providers, OrbitAI handoff, demo-safe local fallbacks, memos, outreach, watchlist alerts, developer API, OpenAPI spec, and repeatable E2E smoke checks.
 
 ## Backlog
 
@@ -11,7 +11,7 @@ Working MVP implemented as a Next.js + TypeScript app with seeded demo mode, det
 - [x] Initialize Next.js TypeScript app.
 - [x] Add Tailwind/shadcn or equivalent component system.
 - [x] Create seeded demo dataset with at least 12 fictional vineyard opportunities.
-- [x] Implement buyer profile intake.
+- [x] Implement buyer profile intake with local demo upload.
 - [x] Implement vineyard search, ranking, map, filters, and cards.
 - [x] Implement vineyard diligence room.
 - [x] Implement harvest-risk signal charts and transparent scoring.
@@ -21,9 +21,11 @@ Working MVP implemented as a Next.js + TypeScript app with seeded demo mode, det
 - [x] Implement outreach generator.
 - [x] Implement watchlist/alerts.
 - [x] Implement API playground and `/api/openapi.json`.
+- [x] Document protected write APIs and admin-token behavior in the playground/OpenAPI spec.
 - [x] Add bilingual summary toggle for memos.
 - [x] Add Supabase support with local fallback.
 - [x] Add tests for scoring, AI fallback, API health, and core demo path.
+- [x] Add repeatable hosted/local E2E smoke script.
 - [x] Verify lint, typecheck, tests, and build.
 
 ### P1 — Prize polish
@@ -38,12 +40,15 @@ Working MVP implemented as a Next.js + TypeScript app with seeded demo mode, det
 ### P2 — Nice to have
 
 - [x] Add optional live weather adapter.
+- [x] Surface live weather proxy inside vineyard diligence rooms.
 - [x] Add optional STAC/Copernicus adapter skeleton.
 - [x] Add CSV import for vineyard candidates.
 - [x] Add webhook alert mock.
 - [x] Add SDK snippet package.
+- [x] Add starter Supabase migration for durable storage follow-up.
 
 ## Known risks
 
 - Satellite evidence predicts vineyard-health proxies, not final wine quality.
 - OrbitAI direct satellite tasking must not be assumed without real docs.
+- The public OrbitAI relay endpoint/model must be verified with current OrbitAI docs; the app falls back safely when relay calls fail.
