@@ -8,7 +8,7 @@ import { listAlerts, listVineyards } from "@/lib/store";
 import { buildBuyerStrategy } from "@/lib/generators";
 
 export default function DashboardPage() {
-  const vineyards = listVineyards().slice(0, 6);
+  const vineyards = listVineyards();
   const alerts = listAlerts();
   return (
     <>
@@ -28,8 +28,8 @@ export default function DashboardPage() {
         <ScoreBar value={alerts.length} label="Active watch alerts" />
       </section>
       <section className="grid two">
-        <div className="workspace">
-          <h3>Ranked map</h3>
+        <div className="globe-panel">
+          <h3>3D vineyard globe</h3>
           <OpportunityMap vineyards={vineyards} />
         </div>
         <WatchlistPanel alerts={alerts} />

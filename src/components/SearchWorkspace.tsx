@@ -17,18 +17,28 @@ export function SearchWorkspace({ vineyards }: { vineyards: VineyardOpportunity[
 
   const countries = useMemo(() => ["All", ...Array.from(new Set(vineyards.map((vineyard) => vineyard.country))).sort()], [vineyards]);
   const regions = useMemo(() => ["All", ...Array.from(new Set(vineyards.map((vineyard) => vineyard.region))).sort()], [vineyards]);
-  const filtered = vineyards.filter((vineyard) => {
-    if (country !== "All" && vineyard.country !== country) return false;
-    if (region !== "All" && vineyard.region !== region) return false;
-    if (dealType !== "All" && !vineyard.dealTypes.includes(dealType as never)) return false;
-    const price = vineyard.indicativePriceUsd ?? vineyard.investmentRangeUsd?.[0] ?? 0;
-    if (price > maxPrice) return false;
-    if (vineyard.harvestRiskScore > maxRisk) return false;
-    if (vineyard.chinaPremiumFitScore < minChinaFit) return false;
-    if (vineyard.exportReadinessScore < minExportReadiness) return false;
-    if (query && !`${vineyard.name} ${vineyard.region} ${vineyard.varietals.join(" ")}`.toLowerCase().includes(query.toLowerCase())) return false;
-    return true;
-  });
+  const filtered = useMemo(
+    () =>
+      vineyards.filter((vineyard) => {
+        if (country !== "All" && vineyard.country !== country) return false;
+        if (region !== "All" && vineyard.region !== region) return false;
+        if (dealType !== "All" && !vineyard.dealTypes.includes(dealType as never)) return false;
+        const price = vineyard.indicativePriceUsd ?? vineyard.investmentRangeUsd?.[0] ?? 0;
+        if (price > maxPrice) return false;
+        if (vineyard.harvestRiskScore > maxRisk) return false;
+        if (vineyard.chinaPremiumFitScore < minChinaFit) return false;
+        if (vineyard.exportReadinessScore < minExportReadiness) return false;
+        if (
+          query &&
+          !`${vineyard.name} ${vineyard.region} ${vineyard.country} ${vineyard.varietals.join(" ")}`.toLowerCase().includes(query.toLowerCase())
+        ) {
+          return false;
+        }
+        return true;
+      }),
+    [country, dealType, maxPrice, maxRisk, minChinaFit, minExportReadiness, query, region, vineyards]
+  );
+  const visibleCards = filtered.slice(0, 36);
 
   return (
     <div className="grid two">
@@ -89,14 +99,17 @@ export function SearchWorkspace({ vineyards }: { vineyards: VineyardOpportunity[
             </label>
           </div>
         </div>
+        <p className="muted">
+          Showing top {visibleCards.length} ranked cards from {filtered.length} globe-mapped opportunities.
+        </p>
         <div className="opportunity-list">
-          {filtered.map((vineyard) => (
+          {visibleCards.map((vineyard) => (
             <VineyardCard vineyard={vineyard} key={vineyard.id} />
           ))}
         </div>
       </section>
-      <aside className="workspace">
-        <h3>Ranked map</h3>
+      <aside className="globe-panel">
+        <h3>3D vineyard globe</h3>
         <OpportunityMap vineyards={filtered} />
         <p>{filtered.length} matching fictional opportunities. Scores update deterministically from the transparent formulas.</p>
       </aside>

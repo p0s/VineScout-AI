@@ -349,42 +349,120 @@ p {
   font-weight: 900;
 }
 
-.map {
-  aspect-ratio: 16 / 10;
+.globe-panel {
+  align-content: start;
+  align-self: start;
   background:
-    linear-gradient(130deg, rgba(139, 30, 63, 0.18), transparent 38%),
-    linear-gradient(45deg, rgba(47, 125, 82, 0.18), transparent 42%),
-    #e8dfd0;
-  border: 1px solid var(--line);
+    radial-gradient(circle at 50% 34%, rgba(104, 181, 202, 0.18), transparent 38%),
+    linear-gradient(145deg, #08121a, #101720 52%, #05080d);
+  border: 1px solid rgba(248, 242, 234, 0.12);
   border-radius: 8px;
+  color: #f7f2ea;
+  display: grid;
+  gap: 12px;
+  min-height: 520px;
+  overflow: hidden;
+  padding: 18px;
+  position: sticky;
+  top: 88px;
+}
+
+.globe-panel h3,
+.globe-panel p {
+  color: #f7f2ea;
+  position: relative;
+  z-index: 2;
+}
+
+.globe-panel p {
+  color: rgba(247, 242, 234, 0.68);
+  margin: 0;
+}
+
+.globe-map {
+  aspect-ratio: 16 / 11;
+  min-height: 420px;
   overflow: hidden;
   position: relative;
 }
 
-.map::before {
-  color: rgba(27, 26, 23, 0.14);
-  content: "EUROPE / NORTH AMERICA";
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.5rem, 4vw, 4rem);
+.globe-canvas {
+  cursor: grab;
+  inset: 0;
+  position: absolute;
+}
+
+.globe-canvas canvas {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.globe-overlay {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.globe-overlay span,
+.globe-tooltip,
+.globe-fallback a {
+  backdrop-filter: blur(18px);
+  background: rgba(8, 18, 26, 0.58);
+  border: 1px solid rgba(248, 242, 234, 0.14);
+  border-radius: 999px;
+  color: #f7f2ea;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 7px 10px;
+}
+
+.globe-tooltip {
+  border-radius: 8px;
+  display: grid;
+  gap: 3px;
+  min-width: 190px;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(12px, -50%);
+  z-index: 4;
+}
+
+.globe-tooltip span {
+  color: rgba(247, 242, 234, 0.72);
   font-weight: 700;
-  left: 24px;
-  position: absolute;
-  top: 24px;
 }
 
-.pin {
-  background: var(--burgundy);
-  border: 2px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
-  height: 14px;
+.globe-fallback {
+  bottom: 0;
+  display: grid;
+  gap: 6px;
+  left: 0;
+  max-width: 290px;
   position: absolute;
-  transform: translate(-50%, -50%);
-  width: 14px;
+  z-index: 2;
 }
 
-.pin[data-score="high"] {
-  background: var(--green);
+.globe-fallback a {
+  align-items: center;
+  border-radius: 7px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.globe-fallback a span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chart {
@@ -554,7 +632,27 @@ button:disabled {
 
   .site-header {
     align-items: flex-start;
+    background: var(--paper);
     flex-direction: column;
+  }
+
+  .globe-panel {
+    min-height: 560px;
+    position: relative;
+    top: auto;
+  }
+
+  .globe-map {
+    min-height: 480px;
+  }
+
+  .globe-overlay {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .globe-fallback {
+    max-width: calc(100% - 22px);
   }
 
   .hero {

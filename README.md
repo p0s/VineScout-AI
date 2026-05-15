@@ -8,14 +8,14 @@ VineScout AI helps Chinese premium wine importers, beverage/DTC startups, and st
 
 - Buyer profile intake.
 - Local buyer brief upload for demo-safe intake notes.
-- Vineyard opportunity search, ranking, map, filters, and cards.
+- Vineyard opportunity search, ranking, Three.js 3D globe map, filters, and cards.
 - Harvest-risk signal charts, live public weather proxy, and transparent scoring.
 - OrbitAI task studio and Eye-of-God manual handoff.
 - Deal memo generator.
 - Outreach generator.
 - Watchlist alerts and protected webhook mock.
 - API playground and OpenAPI spec with protected write examples.
-- Seeded demo mode with at least 12 fictional opportunities.
+- Seeded demo mode with 100 fictional opportunities.
 
 ## OrbitAI usage
 

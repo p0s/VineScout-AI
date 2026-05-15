@@ -484,7 +484,131 @@ const seeds: VineyardSeed[] = [
   }
 ];
 
-export const seededVineyards: VineyardOpportunity[] = seeds.map((seed) => {
+type RegionTemplate = {
+  region: string;
+  country: string;
+  lat: number;
+  lng: number;
+  varietals: string[];
+  dealTypes: DealType[];
+  climate: number;
+  exportReady: number;
+  chinaFit: number;
+  owner: number;
+  priceBase: number;
+};
+
+const generatedRegionTemplates: RegionTemplate[] = [
+  { region: "Bordeaux", country: "France", lat: 44.84, lng: -0.58, varietals: ["Merlot", "Cabernet Sauvignon", "Cabernet Franc"], dealTypes: ["supply_contract", "minority_investment", "acquisition"], climate: 39, exportReady: 88, chinaFit: 91, owner: 67, priceBase: 12_000_000 },
+  { region: "Champagne", country: "France", lat: 49.05, lng: 4.01, varietals: ["Chardonnay", "Pinot Noir", "Meunier"], dealTypes: ["supply_contract", "minority_investment"], climate: 31, exportReady: 92, chinaFit: 88, owner: 58, priceBase: 16_500_000 },
+  { region: "Alsace", country: "France", lat: 48.08, lng: 7.36, varietals: ["Riesling", "Gewurztraminer", "Pinot Gris"], dealTypes: ["supply_contract", "joint_venture"], climate: 29, exportReady: 82, chinaFit: 79, owner: 72, priceBase: 4_800_000 },
+  { region: "Provence", country: "France", lat: 43.53, lng: 6.05, varietals: ["Grenache", "Cinsault", "Syrah"], dealTypes: ["supply_contract", "minority_investment", "acquisition"], climate: 56, exportReady: 79, chinaFit: 82, owner: 74, priceBase: 8_900_000 },
+  { region: "Beaujolais", country: "France", lat: 46.12, lng: 4.72, varietals: ["Gamay", "Chardonnay"], dealTypes: ["supply_contract", "acquisition"], climate: 36, exportReady: 75, chinaFit: 76, owner: 77, priceBase: 4_200_000 },
+  { region: "Cahors", country: "France", lat: 44.45, lng: 1.44, varietals: ["Malbec", "Merlot"], dealTypes: ["supply_contract", "minority_investment"], climate: 46, exportReady: 71, chinaFit: 81, owner: 78, priceBase: 3_900_000 },
+  { region: "Priorat", country: "Spain", lat: 41.15, lng: 0.82, varietals: ["Garnacha", "Carinena", "Syrah"], dealTypes: ["supply_contract", "minority_investment"], climate: 52, exportReady: 80, chinaFit: 86, owner: 65, priceBase: 7_600_000 },
+  { region: "Rias Baixas", country: "Spain", lat: 42.47, lng: -8.64, varietals: ["Albarino", "Treixadura"], dealTypes: ["supply_contract", "joint_venture"], climate: 33, exportReady: 78, chinaFit: 75, owner: 73, priceBase: 3_800_000 },
+  { region: "Navarra", country: "Spain", lat: 42.62, lng: -1.64, varietals: ["Tempranillo", "Garnacha", "Graciano"], dealTypes: ["supply_contract", "acquisition"], climate: 43, exportReady: 74, chinaFit: 78, owner: 76, priceBase: 5_100_000 },
+  { region: "Penedes", country: "Spain", lat: 41.35, lng: 1.7, varietals: ["Xarel-lo", "Macabeo", "Parellada"], dealTypes: ["supply_contract", "joint_venture"], climate: 45, exportReady: 82, chinaFit: 77, owner: 70, priceBase: 4_600_000 },
+  { region: "Dao", country: "Portugal", lat: 40.62, lng: -7.91, varietals: ["Touriga Nacional", "Jaen", "Encruzado"], dealTypes: ["supply_contract", "minority_investment", "acquisition"], climate: 42, exportReady: 76, chinaFit: 83, owner: 82, priceBase: 4_400_000 },
+  { region: "Vinho Verde", country: "Portugal", lat: 41.55, lng: -8.42, varietals: ["Alvarinho", "Loureiro", "Arinto"], dealTypes: ["supply_contract", "joint_venture"], climate: 32, exportReady: 77, chinaFit: 72, owner: 75, priceBase: 3_100_000 },
+  { region: "Bairrada", country: "Portugal", lat: 40.42, lng: -8.45, varietals: ["Baga", "Touriga Nacional", "Bical"], dealTypes: ["supply_contract", "acquisition"], climate: 38, exportReady: 73, chinaFit: 76, owner: 79, priceBase: 3_700_000 },
+  { region: "Mosel", country: "Germany", lat: 49.92, lng: 7.06, varietals: ["Riesling", "Elbling"], dealTypes: ["supply_contract", "minority_investment"], climate: 27, exportReady: 87, chinaFit: 82, owner: 68, priceBase: 5_800_000 },
+  { region: "Pfalz", country: "Germany", lat: 49.31, lng: 8.13, varietals: ["Riesling", "Pinot Noir", "Dornfelder"], dealTypes: ["supply_contract", "joint_venture"], climate: 34, exportReady: 84, chinaFit: 80, owner: 74, priceBase: 4_900_000 },
+  { region: "Baden", country: "Germany", lat: 48.02, lng: 7.84, varietals: ["Spatburgunder", "Pinot Gris", "Riesling"], dealTypes: ["supply_contract", "minority_investment"], climate: 35, exportReady: 82, chinaFit: 79, owner: 70, priceBase: 5_200_000 },
+  { region: "Piedmont", country: "Italy", lat: 44.7, lng: 8.04, varietals: ["Nebbiolo", "Barbera", "Dolcetto"], dealTypes: ["supply_contract", "minority_investment"], climate: 37, exportReady: 87, chinaFit: 89, owner: 59, priceBase: 13_500_000 },
+  { region: "Etna", country: "Italy", lat: 37.75, lng: 15.0, varietals: ["Nerello Mascalese", "Carricante"], dealTypes: ["supply_contract", "joint_venture"], climate: 48, exportReady: 78, chinaFit: 84, owner: 71, priceBase: 6_100_000 },
+  { region: "Friuli", country: "Italy", lat: 46.0, lng: 13.24, varietals: ["Friulano", "Sauvignon Blanc", "Merlot"], dealTypes: ["supply_contract", "minority_investment"], climate: 36, exportReady: 80, chinaFit: 75, owner: 73, priceBase: 4_700_000 },
+  { region: "Trentino", country: "Italy", lat: 46.07, lng: 11.12, varietals: ["Pinot Grigio", "Lagrein", "Chardonnay"], dealTypes: ["supply_contract", "joint_venture"], climate: 33, exportReady: 81, chinaFit: 76, owner: 72, priceBase: 4_300_000 },
+  { region: "Napa Valley", country: "USA", lat: 38.5, lng: -122.36, varietals: ["Cabernet Sauvignon", "Merlot", "Sauvignon Blanc"], dealTypes: ["minority_investment", "supply_contract"], climate: 50, exportReady: 83, chinaFit: 92, owner: 55, priceBase: 19_000_000 },
+  { region: "Sonoma County", country: "USA", lat: 38.43, lng: -122.77, varietals: ["Pinot Noir", "Chardonnay", "Zinfandel"], dealTypes: ["supply_contract", "minority_investment"], climate: 48, exportReady: 80, chinaFit: 85, owner: 64, priceBase: 11_500_000 },
+  { region: "Walla Walla", country: "USA", lat: 46.07, lng: -118.34, varietals: ["Cabernet Sauvignon", "Syrah", "Merlot"], dealTypes: ["supply_contract", "joint_venture"], climate: 52, exportReady: 73, chinaFit: 80, owner: 75, priceBase: 6_900_000 },
+  { region: "Columbia Valley", country: "USA", lat: 46.25, lng: -119.21, varietals: ["Riesling", "Cabernet Sauvignon", "Syrah"], dealTypes: ["supply_contract", "acquisition"], climate: 51, exportReady: 72, chinaFit: 78, owner: 79, priceBase: 5_600_000 },
+  { region: "Finger Lakes", country: "USA", lat: 42.68, lng: -76.89, varietals: ["Riesling", "Cabernet Franc", "Gewurztraminer"], dealTypes: ["supply_contract", "minority_investment"], climate: 36, exportReady: 69, chinaFit: 73, owner: 78, priceBase: 3_600_000 },
+  { region: "Paso Robles", country: "USA", lat: 35.64, lng: -120.69, varietals: ["Cabernet Sauvignon", "Zinfandel", "Syrah"], dealTypes: ["supply_contract", "acquisition"], climate: 58, exportReady: 77, chinaFit: 82, owner: 72, priceBase: 8_200_000 },
+  { region: "Niagara Peninsula", country: "Canada", lat: 43.16, lng: -79.24, varietals: ["Riesling", "Cabernet Franc", "Chardonnay"], dealTypes: ["supply_contract", "joint_venture"], climate: 35, exportReady: 68, chinaFit: 74, owner: 76, priceBase: 3_400_000 },
+  { region: "Similkameen Valley", country: "Canada", lat: 49.2, lng: -119.83, varietals: ["Merlot", "Cabernet Franc", "Syrah"], dealTypes: ["supply_contract", "minority_investment"], climate: 47, exportReady: 66, chinaFit: 73, owner: 80, priceBase: 3_800_000 },
+  { region: "Vancouver Island", country: "Canada", lat: 48.79, lng: -123.7, varietals: ["Pinot Noir", "Pinot Gris", "Ortega"], dealTypes: ["supply_contract", "joint_venture"], climate: 38, exportReady: 63, chinaFit: 70, owner: 77, priceBase: 2_900_000 }
+];
+
+const estatePrefixes = ["Aster", "Cedar", "Marble", "Juniper", "Lunar", "Sable", "Copper", "Silver", "Falcon", "Harbor"];
+const estateSuffixes = ["Ridge", "Bench", "Terrace", "Hollow", "Crest", "Stone", "Meadow", "Slope", "Haven", "Field"];
+const contactNames = ["Elena Cross", "Marc Vidal", "Sofia Lang", "Hugo Perrin", "Isabel Costa", "Lena Hart", "Nicolas Frey", "Clara Stone"];
+
+function generatedOffset(index: number, span: number) {
+  return Math.sin(index * 12.9898) * span + Math.cos(index * 78.233) * (span / 2);
+}
+
+function slugify(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+function clampMetric(value: number) {
+  return Math.max(8, Math.min(96, Math.round(value)));
+}
+
+function createGeneratedSeeds(existing: VineyardSeed[], targetCount: number): VineyardSeed[] {
+  const generated: VineyardSeed[] = [];
+  const usedIds = new Set(existing.map((seed) => seed.id));
+  for (let index = 0; existing.length + generated.length < targetCount; index += 1) {
+    const template = generatedRegionTemplates[index % generatedRegionTemplates.length];
+    const cycle = Math.floor(index / generatedRegionTemplates.length);
+    const prefix = estatePrefixes[(index * 3 + cycle) % estatePrefixes.length];
+    const suffix = estateSuffixes[(index * 5 + cycle) % estateSuffixes.length];
+    const name = `${prefix} ${template.region} ${suffix}`;
+    let id = slugify(name);
+    if (usedIds.has(id)) id = `${id}-${cycle + 1}`;
+    usedIds.add(id);
+    const signalClimate = clampMetric(template.climate + generatedOffset(index + 2, 7));
+    const heatRisk = clampMetric(signalClimate + generatedOffset(index + 5, 6));
+    const droughtStress = clampMetric(signalClimate + generatedOffset(index + 7, 7) - 4);
+    const frostRisk = clampMetric(62 - template.climate + generatedOffset(index + 11, 8));
+    const smokeRisk = clampMetric(template.country === "USA" || template.country === "Canada" ? 24 + generatedOffset(index + 13, 12) : 8 + generatedOffset(index + 13, 6));
+    const highPrice = Math.round(template.priceBase * (0.82 + ((index % 7) * 0.07)));
+    const lowPrice = Math.round(highPrice * 0.42);
+    generated.push({
+      id,
+      name,
+      region: template.region,
+      country: template.country,
+      lat: Number((template.lat + generatedOffset(index + 17, 0.42)).toFixed(3)),
+      lng: Number((template.lng + generatedOffset(index + 19, 0.58)).toFixed(3)),
+      hectares: Math.round(11 + ((index * 7) % 52)),
+      varietals: template.varietals,
+      production: Math.round(55_000 + ((index * 23_000) % 295_000)),
+      dealTypes: template.dealTypes,
+      range: [lowPrice, highPrice],
+      owner: clampMetric(template.owner + generatedOffset(index + 23, 9)),
+      exportReady: clampMetric(template.exportReady + generatedOffset(index + 29, 7)),
+      chinaFit: clampMetric(template.chinaFit + generatedOffset(index + 31, 7)),
+      climate: signalClimate,
+      reasons: [
+        `${template.region} adds ${template.varietals[0]} depth to the Western supply map`,
+        `${template.country} provenance supports premium portfolio storytelling`
+      ],
+      flags: [
+        signalClimate > 55
+          ? "Elevated climate proxy requires OrbitAI validation before exclusivity"
+          : "Ground records are still required before commercial commitment"
+      ],
+      contact: contactNames[index % contactNames.length],
+      signalBase: {
+        ndviProxy: clampMetric(82 - signalClimate / 4 + generatedOffset(index + 37, 5)),
+        eviProxy: clampMetric(78 - signalClimate / 5 + generatedOffset(index + 41, 5)),
+        canopyUniformity: clampMetric(83 - signalClimate / 6 + generatedOffset(index + 43, 6)),
+        droughtStress,
+        heatRisk,
+        frostRisk,
+        smokeRisk,
+        diseaseAnomalyProxy: clampMetric(14 + generatedOffset(index + 47, 9))
+      }
+    });
+  }
+  return generated;
+}
+
+const expandedSeeds = [...seeds, ...createGeneratedSeeds(seeds, 100)];
+
+export const seededVineyards: VineyardOpportunity[] = expandedSeeds.map((seed) => {
   const vineyardSignals = signals(seed.id, seed.signalBase);
   const base: VineyardOpportunity = {
     id: seed.id,

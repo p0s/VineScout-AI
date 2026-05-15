@@ -4,7 +4,7 @@ const pages = [
   ["/", "VineScout AI"],
   ["/app", "Opportunity command room"],
   ["/app/intake", "Buyer profile"],
-  ["/app/search", "Ranked map"],
+  ["/app/search", "3D vineyard globe"],
   ["/app/vineyards/domaine-valclaire", "Domaine Valclaire"],
   ["/app/orbitai", "Eye-of-God manual handoff"],
   ["/app/memos", "Deal memo"],

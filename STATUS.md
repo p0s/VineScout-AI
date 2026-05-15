@@ -2,7 +2,7 @@
 
 ## Current state
 
-Working MVP implemented as a Next.js + TypeScript app with seeded demo mode, deterministic scoring, server-only optional AI providers, OrbitAI handoff, demo-safe local fallbacks, memos, outreach, watchlist alerts, developer API, OpenAPI spec, and repeatable E2E smoke checks.
+Working MVP implemented as a Next.js + TypeScript app with 100 seeded vineyard opportunities, deterministic scoring, a Three.js 3D globe map, server-only optional AI providers, OrbitAI handoff, demo-safe local fallbacks, memos, outreach, watchlist alerts, developer API, OpenAPI spec, and repeatable E2E smoke checks.
 
 ## Backlog
 
@@ -10,9 +10,9 @@ Working MVP implemented as a Next.js + TypeScript app with seeded demo mode, det
 
 - [x] Initialize Next.js TypeScript app.
 - [x] Add Tailwind/shadcn or equivalent component system.
-- [x] Create seeded demo dataset with at least 12 fictional vineyard opportunities.
+- [x] Create seeded demo dataset with 100 fictional vineyard opportunities.
 - [x] Implement buyer profile intake with local demo upload.
-- [x] Implement vineyard search, ranking, map, filters, and cards.
+- [x] Implement vineyard search, ranking, Three.js globe map, filters, and cards.
 - [x] Implement vineyard diligence room.
 - [x] Implement harvest-risk signal charts and transparent scoring.
 - [x] Implement AI provider adapter: mock, OrbitAI, optional OpenAI fallback.

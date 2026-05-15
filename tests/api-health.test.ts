@@ -7,7 +7,7 @@ describe("health API", () => {
     const json = await response.json();
     expect(response.status).toBe(200);
     expect(json.ok).toBe(true);
-    expect(json.seededOpportunities).toBeGreaterThanOrEqual(12);
+    expect(json.seededOpportunities).toBeGreaterThanOrEqual(100);
     expect(json.providerStatus.defaultProvider).toBeTruthy();
   });
 });
