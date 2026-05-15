@@ -13,7 +13,8 @@ type ChatResponse = {
 export async function orbitAi<T = unknown>(request: AiRequest): Promise<AiResponse<T>> {
   const apiKey = process.env.ORBITAI_API_KEY;
   const baseUrl = process.env.ORBITAI_API_BASE_URL;
-  const model = process.env.ORBITAI_MODEL ?? "gpt-5.4";
+  const configuredModel = process.env.ORBITAI_MODEL;
+  const model = configuredModel && configuredModel !== "orbitai-relay" ? configuredModel : "gpt-5.4";
   if (!apiKey || !baseUrl) {
     return {
       provider: "orbitai",
