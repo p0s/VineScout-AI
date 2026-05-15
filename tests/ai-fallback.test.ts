@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { getProviderStatus, runAi } from "@/lib/ai";
+import { parseAiJsonContent } from "@/lib/ai/parse";
 
 afterEach(() => {
   vi.unstubAllEnvs();
@@ -29,5 +30,10 @@ describe("AI provider fallback", () => {
       openai: false,
       defaultProvider: "mock"
     });
+  });
+
+  it("rejects malformed provider JSON before fallback can be accepted", () => {
+    expect(parseAiJsonContent("not json").ok).toBe(false);
+    expect(parseAiJsonContent(JSON.stringify({ summary: "Valid", confidence: 70, nextActions: [] })).ok).toBe(true);
   });
 });
