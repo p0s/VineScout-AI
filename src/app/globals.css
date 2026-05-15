@@ -109,6 +109,11 @@ button.button {
   color: var(--ink);
 }
 
+.button.small {
+  min-height: 28px;
+  padding: 5px 9px;
+}
+
 .button:hover,
 .nav a:hover {
   transform: translateY(-1px);
@@ -158,6 +163,14 @@ h2 {
   font-size: clamp(2rem, 4vw, 4.2rem);
 }
 
+.app-shell .page-head h2 {
+  font-size: clamp(2rem, 3vw, 3.4rem);
+}
+
+.workspace h2 {
+  font-size: clamp(1.5rem, 2.2vw, 2.5rem);
+}
+
 h3 {
   font-size: 1.05rem;
 }
@@ -165,6 +178,10 @@ h3 {
 p {
   color: var(--muted);
   line-height: 1.6;
+}
+
+.muted {
+  color: var(--muted);
 }
 
 .hero p {
@@ -214,6 +231,10 @@ p {
   justify-content: space-between;
 }
 
+.page-head.compact {
+  align-items: flex-start;
+}
+
 .page-head p {
   margin: 10px 0 0;
   max-width: 760px;
@@ -260,6 +281,14 @@ p {
 .badge.eye_of_god_handoff,
 .badge.orbitai_relay {
   background: #eee3ff;
+}
+
+.evidence-preview {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 14px;
 }
 
 .metric {
@@ -373,6 +402,33 @@ p {
 .chart .gridline {
   stroke: #d7ccbd;
   stroke-width: 1;
+}
+
+.radar {
+  aspect-ratio: 1;
+  display: block;
+  margin: 4px auto 0;
+  max-width: 340px;
+  width: 100%;
+}
+
+.radar-grid {
+  fill: none;
+  stroke: #d7ccbd;
+  stroke-width: 1;
+}
+
+.radar-fill {
+  fill: rgba(139, 30, 63, 0.22);
+  stroke: var(--burgundy);
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.radar text {
+  fill: var(--muted);
+  font-size: 0.5rem;
+  font-weight: 800;
 }
 
 .tabs {

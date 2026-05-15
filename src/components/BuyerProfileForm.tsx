@@ -25,8 +25,21 @@ function buildLocalStrategy(profile: BuyerProfile) {
 
 export function BuyerProfileForm({ initialProfile }: { initialProfile: BuyerProfile }) {
   const [profile, setProfile] = useState(initialProfile);
+  const [notes, setNotes] = useState(initialProfile.notes ?? "");
   const [strategy, setStrategy] = useState("Submit the profile to generate a strategy brief.");
   const [status, setStatus] = useState("Seeded demo profile loaded.");
+  const [uploadStatus, setUploadStatus] = useState("No buyer notes uploaded.");
+
+  async function loadNotesFile(file: File | undefined) {
+    if (!file) return;
+    if (file.size > 200000) {
+      setUploadStatus("Use a text file under 200 KB for the local demo upload.");
+      return;
+    }
+    const text = await file.text();
+    setNotes(text.slice(0, 5000));
+    setUploadStatus(`${file.name} loaded locally. Nothing was uploaded to the server.`);
+  }
 
   async function submit(formData: FormData) {
     const now = new Date().toISOString();
@@ -42,7 +55,7 @@ export function BuyerProfileForm({ initialProfile }: { initialProfile: BuyerProf
       targetChinaPriceTier: String(formData.get("targetChinaPriceTier")),
       riskAppetite: String(formData.get("riskAppetite")),
       timeline: String(formData.get("timeline")),
-      notes: String(formData.get("notes"))
+      notes
     } as Omit<BuyerProfile, "id" | "createdAt" | "updatedAt">;
     const localProfile: BuyerProfile = {
       ...payload,
@@ -145,8 +158,17 @@ export function BuyerProfileForm({ initialProfile }: { initialProfile: BuyerProf
         </label>
         <label>
           Notes or upload summary
-          <textarea name="notes" defaultValue={profile.notes} />
+          <textarea name="notes" value={notes} onChange={(event) => setNotes(event.target.value)} />
         </label>
+        <label>
+          Local buyer brief upload
+          <input
+            accept=".txt,.md,.csv,text/plain,text/markdown,text/csv"
+            type="file"
+            onChange={(event) => void loadNotesFile(event.target.files?.[0])}
+          />
+        </label>
+        <p className="muted">{uploadStatus}</p>
       </form>
       <aside className="workspace">
         <p className="eyebrow">AI intake output</p>

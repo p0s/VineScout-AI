@@ -2,8 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EvidenceBadge } from "@/components/EvidenceBadge";
 import { HarvestRiskPanel } from "@/components/HarvestRiskPanel";
+import { LiveWeatherPanel } from "@/components/LiveWeatherPanel";
 import { OutreachComposer } from "@/components/OutreachComposer";
 import { ScoreBar } from "@/components/ScoreBar";
+import { ScoreRadar } from "@/components/ScoreRadar";
 import { buildDealMemo, buildEyeOfGodPrompt } from "@/lib/generators";
 import { demoBuyerProfile } from "@/lib/seed-data";
 import { getVineyard, scoreVineyard } from "@/lib/store";
@@ -38,7 +40,7 @@ export default async function VineyardPage({ params }: { params: Promise<{ id: s
                 {vineyard.dealTypes.map(formatDealType).join(", ")}
               </p>
             </div>
-            <Link className="button" href="/app/orbitai">
+            <Link className="button" href={`/app/orbitai?opportunityId=${vineyard.id}`}>
               Validate with OrbitAI
             </Link>
           </div>
@@ -53,7 +55,10 @@ export default async function VineyardPage({ params }: { params: Promise<{ id: s
             ))}
           </div>
         </section>
-        <HarvestRiskPanel vineyard={vineyard} />
+        <section className="grid two">
+          <HarvestRiskPanel vineyard={vineyard} />
+          <LiveWeatherPanel lat={vineyard.lat} lng={vineyard.lng} />
+        </section>
         <section className="workspace" id="orbitai">
           <p className="eyebrow">OrbitAI validation</p>
           <h2>Eye-of-God handoff</h2>
@@ -69,6 +74,10 @@ export default async function VineyardPage({ params }: { params: Promise<{ id: s
             <h3>Compliance/export</h3>
             <ScoreBar value={vineyard.exportReadinessScore} label="Export readiness" />
             <p>{vineyard.dueDiligenceNotes[0]}</p>
+          </div>
+          <div className="workspace">
+            <h3>Score shape</h3>
+            <ScoreRadar vineyard={vineyard} />
           </div>
         </section>
         <section className="workspace" id="memo">

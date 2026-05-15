@@ -2,8 +2,15 @@ import { OrbitAiTaskBuilder } from "@/components/OrbitAiTaskBuilder";
 import { getProviderStatus } from "@/lib/ai";
 import { listVineyards } from "@/lib/store";
 
-export default function OrbitAiPage() {
+export default async function OrbitAiPage({
+  searchParams
+}: {
+  searchParams?: Promise<{ opportunityId?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const opportunityId = Array.isArray(params?.opportunityId) ? params?.opportunityId[0] : params?.opportunityId;
   const providerStatus = getProviderStatus();
+  const vineyards = listVineyards();
   return (
     <>
       <section className="page-head">
@@ -17,7 +24,7 @@ export default function OrbitAiPage() {
         </div>
         <span className="badge">{providerStatus.orbitai ? "OrbitAI relay configured" : "Mock fallback active"}</span>
       </section>
-      <OrbitAiTaskBuilder vineyards={listVineyards()} />
+      <OrbitAiTaskBuilder vineyards={vineyards} initialOpportunityId={opportunityId} />
     </>
   );
 }
