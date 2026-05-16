@@ -7,7 +7,8 @@ const links = [
   ["OrbitAI", "/app/orbitai"],
   ["Memos", "/app/memos"],
   ["API", "/app/api-playground"],
-  ["Deck", "/presentation"]
+  ["Deck", "/presentation"],
+  ["GitHub", "https://github.com/p0s/VineScout-AI"]
 ];
 
 export function AppHeader() {
@@ -22,7 +23,7 @@ export function AppHeader() {
       </Link>
       <nav className="nav" aria-label="Primary">
         {links.map(([label, href]) => (
-          <Link key={href} href={href}>
+          <Link key={href} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined}>
             {label}
           </Link>
         ))}

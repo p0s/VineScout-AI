@@ -25,6 +25,9 @@ export default function LandingPage() {
               <Link className="button secondary" href="/presentation">
                 Pitch deck
               </Link>
+              <a className="button secondary" href="https://github.com/p0s/VineScout-AI" target="_blank" rel="noreferrer">
+                GitHub
+              </a>
             </div>
           </div>
         </section>
