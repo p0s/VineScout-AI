@@ -31,3 +31,8 @@
 ## Project Learnings
 
 Keep this section short. Add concrete rules only when a mistake shows they are needed. Prune rules that no longer prevent real mistakes.
+
+- Public repo rule: never write prompts, Codex history, local paths, private workflow notes, generated media, or model caches into tracked files.
+- Keep `.gitignore`, ESLint ignores, privacy scans, and Vercel excludes aligned whenever new generated/tooling paths appear.
+- For globe/map UI, use real public geographic data or map tiles with provenance; do not hand-draw approximate landforms.
+- For Codex-authored pushes, verify the commit is signed with the configured p0s key and confirm the hosted health/search pages after deploy.
