@@ -3,7 +3,24 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import tseslint from "typescript-eslint";
 
 const config = [
-  { ignores: [".next/**", "node_modules/**", "coverage/**", "next-env.d.ts"] },
+  {
+    ignores: [
+      ".next/**",
+      ".turbo/**",
+      ".vercel/**",
+      "coverage/**",
+      "dist/**",
+      "logs/**",
+      "node_modules/**",
+      "out/**",
+      "playwright-report/**",
+      "screenshots/**",
+      "temp/**",
+      "test-results/**",
+      "tmp/**",
+      "next-env.d.ts"
+    ]
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...nextVitals,

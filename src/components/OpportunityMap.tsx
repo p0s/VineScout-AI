@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import * as THREE from "three";
 import type { VineyardOpportunity } from "@/lib/types";
+import worldLand from "@/lib/world-land-110m.json";
 
 type ActivePin = {
   id: string;
@@ -15,6 +16,23 @@ type ActivePin = {
   y: number;
 };
 
+type LngLat = [number, number];
+
+type LandFeature = {
+  geometry: {
+    type: "Polygon";
+    coordinates: LngLat[][];
+  };
+};
+
+type LandFeatureCollection = {
+  type: "FeatureCollection";
+  features: LandFeature[];
+};
+
+// Natural Earth 1:110m land polygons, public domain data bundled as static JSON.
+const WORLD_LAND_FEATURES = (worldLand as unknown as LandFeatureCollection).features;
+
 function latLngToVector3(lat: number, lng: number, radius: number) {
   const phi = THREE.MathUtils.degToRad(90 - lat);
   const theta = THREE.MathUtils.degToRad(lng + 180);
@@ -22,6 +40,94 @@ function latLngToVector3(lat: number, lng: number, radius: number) {
     -radius * Math.sin(phi) * Math.cos(theta),
     radius * Math.cos(phi),
     radius * Math.sin(phi) * Math.sin(theta)
+  );
+}
+
+function projectToTexture(lat: number, lng: number, canvas: HTMLCanvasElement, offsetX: number) {
+  return {
+    x: ((lng + 180) / 360) * canvas.width + offsetX,
+    y: ((90 - lat) / 180) * canvas.height
+  };
+}
+
+function traceRing(path: Path2D, ring: LngLat[], canvas: HTMLCanvasElement, offsetX: number) {
+  if (ring.length < 3) return;
+
+  let previousLng = ring[0][0];
+  const first = projectToTexture(ring[0][1], previousLng, canvas, offsetX);
+  path.moveTo(first.x, first.y);
+
+  for (const [rawLng, lat] of ring.slice(1)) {
+    let lng = rawLng;
+    while (lng - previousLng > 180) lng -= 360;
+    while (lng - previousLng < -180) lng += 360;
+    previousLng = lng;
+    const point = projectToTexture(lat, lng, canvas, offsetX);
+    path.lineTo(point.x, point.y);
+  }
+
+  path.closePath();
+}
+
+function drawLandPolygons(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+  const landGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  landGradient.addColorStop(0, "rgba(106, 136, 96, 0.95)");
+  landGradient.addColorStop(0.5, "rgba(74, 102, 83, 0.96)");
+  landGradient.addColorStop(1, "rgba(45, 78, 75, 0.94)");
+
+  ctx.save();
+  ctx.shadowBlur = 10;
+  ctx.shadowColor = "rgba(154, 207, 164, 0.22)";
+  ctx.fillStyle = landGradient;
+  for (const offsetX of [-canvas.width, 0, canvas.width]) {
+    for (const feature of WORLD_LAND_FEATURES) {
+      const path = new Path2D();
+      for (const ring of feature.geometry.coordinates) {
+        traceRing(path, ring, canvas, offsetX);
+      }
+      ctx.fill(path, "evenodd");
+    }
+  }
+  ctx.restore();
+
+  ctx.save();
+  ctx.strokeStyle = "rgba(204, 230, 211, 0.42)";
+  ctx.lineWidth = 1.35;
+  for (const offsetX of [-canvas.width, 0, canvas.width]) {
+    for (const feature of WORLD_LAND_FEATURES) {
+      const path = new Path2D();
+      for (const ring of feature.geometry.coordinates) {
+        traceRing(path, ring, canvas, offsetX);
+      }
+      ctx.stroke(path);
+    }
+  }
+  ctx.restore();
+}
+
+function addLandOutlines(group: THREE.Group, radius: number) {
+  const positions: number[] = [];
+
+  for (const feature of WORLD_LAND_FEATURES) {
+    for (const ring of feature.geometry.coordinates) {
+      for (let index = 1; index < ring.length; index += 1) {
+        const [lngA, latA] = ring[index - 1];
+        const [lngB, latB] = ring[index];
+        if (Math.abs(lngA - lngB) > 180) continue;
+        const start = latLngToVector3(latA, lngA, radius);
+        const end = latLngToVector3(latB, lngB, radius);
+        positions.push(start.x, start.y, start.z, end.x, end.y, end.z);
+      }
+    }
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  group.add(
+    new THREE.LineSegments(
+      geometry,
+      new THREE.LineBasicMaterial({ color: 0xcfe6dc, transparent: true, opacity: 0.2 })
+    )
   );
 }
 
@@ -54,35 +160,7 @@ function createEarthTexture() {
     ctx.stroke();
   }
 
-  const land = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  land.addColorStop(0, "rgba(83, 111, 91, 0.88)");
-  land.addColorStop(0.55, "rgba(67, 88, 78, 0.92)");
-  land.addColorStop(1, "rgba(50, 72, 68, 0.86)");
-  ctx.fillStyle = land;
-
-  const project = (lat: number, lng: number) => ({
-    x: ((lng + 180) / 360) * canvas.width,
-    y: ((90 - lat) / 180) * canvas.height
-  });
-
-  const ellipses = [
-    { lat: 49, lng: -105, rx: 260, ry: 150, rot: -0.2 },
-    { lat: 39, lng: -95, rx: 220, ry: 120, rot: 0.35 },
-    { lat: 21, lng: -101, rx: 110, ry: 70, rot: 0.5 },
-    { lat: 52, lng: 10, rx: 150, ry: 92, rot: 0.15 },
-    { lat: 42, lng: -3, rx: 110, ry: 70, rot: -0.15 },
-    { lat: 44, lng: 12, rx: 115, ry: 72, rot: 0.25 },
-    { lat: 27, lng: 18, rx: 230, ry: 170, rot: 0.2 },
-    { lat: 53, lng: 72, rx: 330, ry: 135, rot: -0.08 },
-    { lat: -15, lng: -60, rx: 130, ry: 220, rot: -0.24 }
-  ];
-
-  for (const shape of ellipses) {
-    const point = project(shape.lat, shape.lng);
-    ctx.beginPath();
-    ctx.ellipse(point.x, point.y, shape.rx, shape.ry, shape.rot, 0, Math.PI * 2);
-    ctx.fill();
-  }
+  drawLandPolygons(ctx, canvas);
 
   const vignette = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 120, canvas.width / 2, canvas.height / 2, 880);
   vignette.addColorStop(0, "rgba(255, 255, 255, 0.08)");
@@ -160,6 +238,7 @@ export function OpportunityMap({ vineyards }: { vineyards: VineyardOpportunity[]
       })
     );
     globeGroup.add(earth);
+    addLandOutlines(globeGroup, 2.018);
     addGlobeGrid(globeGroup, 2.012);
 
     const atmosphere = new THREE.Mesh(
