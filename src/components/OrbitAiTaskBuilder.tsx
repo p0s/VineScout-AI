@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { VineyardOpportunity } from "@/lib/types";
 import { seededEyeOfGodResult } from "@/lib/seed-data";
 import { buildEyeOfGodPrompt } from "@/lib/generators";
+import { satellitePreviewsFor } from "@/lib/satellite-imagery";
 import { EvidenceBadge } from "./EvidenceBadge";
 
 type StagedEvidence = {
@@ -35,6 +37,7 @@ export function OrbitAiTaskBuilder({
   const [localEvidence, setLocalEvidence] = useState<StagedEvidence | null>(null);
   const [status, setStatus] = useState("Generate a task prompt, run it in Eye of God, then paste the result.");
   const selected = vineyards.find((vineyard) => vineyard.id === selectedId) ?? vineyards[0];
+  const satellitePreviews = satellitePreviewsFor(selected);
 
   function stageLocalEvidence(reason: string) {
     const confidence = paste.toLowerCase().includes("confidence: high") ? 84 : 76;
@@ -124,8 +127,30 @@ export function OrbitAiTaskBuilder({
         <textarea value={prompt} onChange={(event) => setPrompt(event.target.value)} placeholder="Eye-of-God prompt appears here." />
       </section>
       <aside className="workspace">
+        <h3>Mock satellite request flow</h3>
+        <p>
+          This demo shows the intended image-request review loop. Direct OrbitAI satellite tasking is not assumed;
+          pasted results become `eye_of_god_handoff` evidence.
+        </p>
+        <div className="satellite-request-flow" aria-label="Mock satellite image request flow">
+          {["Request AOI", "Review public preview", "Paste Eye-of-God result"].map((step, index) => (
+            <div key={step}>
+              <strong>{String(index + 1).padStart(2, "0")}</strong>
+              <span>{step}</span>
+            </div>
+          ))}
+        </div>
+        <div className="satellite-gallery">
+          {satellitePreviews.map((preview) => (
+            <a href={preview.sourceUrl} target="_blank" rel="noreferrer" key={preview.id}>
+              <Image src={preview.imageUrl} alt="" width={320} height={240} sizes="(max-width: 900px) 100vw, 220px" />
+              <span className="badge live_public">{preview.provenance}</span>
+              <strong>{preview.title}</strong>
+              <small>{preview.observation}</small>
+            </a>
+          ))}
+        </div>
         <h3>Manual result paste</h3>
-        <p>OrbitAI direct satellite tasking is not assumed. Pasted results become `eye_of_god_handoff` evidence.</p>
         <textarea value={paste} onChange={(event) => setPaste(event.target.value)} />
         <button className="button" type="button" onClick={attachEvidence}>
           Attach evidence
