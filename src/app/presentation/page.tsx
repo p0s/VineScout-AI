@@ -1,12 +1,24 @@
 import Link from "next/link";
 
-const workflowSteps = ["Profile", "Rank", "Validate", "Memo", "Outreach"];
+const marketStats = [
+  ["EUR 1.5B", "China wine imports in 2024, up 37.6% year over year"],
+  ["+43.8%", "bottled wine import value growth in China in 2024"],
+  ["A$1.03B", "Australian wine exports to mainland China in the year to March 2025"]
+];
+
+const problemGaps = [
+  "Overseas vineyard sourcing is travel-heavy and broker-led",
+  "Harvest risk is hard to verify before a site visit",
+  "Owner openness, export readiness, and China fit are fragmented",
+  "Deal teams need evidence before spending weeks on outreach"
+];
+
+const workflowSteps = ["Intake", "Rank", "Verify", "Memo", "Outreach"];
 
 const aiLayers = [
-  ["Structured intake", "turns buyer goals into scoring criteria"],
-  ["Transparent ranking", "explains fit, confidence, risk, and next action"],
-  ["OrbitAI handoff", "requests satellite-observable harvest-risk evidence"],
-  ["Deal artifacts", "drafts memo, checklist, outreach, and alerts"]
+  ["Buyer fit", "brief to transparent scoring criteria"],
+  ["OrbitAI evidence", "handoff for canopy, drought, smoke, and harvest timing"],
+  ["Deal outputs", "memo, checklist, outreach, and alerts from one evidence trail"]
 ];
 
 export default function PresentationPage() {
@@ -23,33 +35,59 @@ export default function PresentationPage() {
       </nav>
 
       <section className="pitch-slide pitch-hero" aria-labelledby="pitch-problem">
-        <div className="pitch-kicker">Problem / ICP</div>
+        <div className="pitch-kicker">Market / ICP</div>
         <div className="pitch-frame">
           <div>
-            <h1 id="pitch-problem">Remote vineyard deals need evidence before outreach.</h1>
+            <h1 id="pitch-problem">China&apos;s wine import rebound needs better vineyard deal flow.</h1>
             <p>
-              Chinese premium wine importers, wine-commerce startups, beverage groups, and strategic investors need
-              supply control, private-label credibility, and acquisition options. The hard part is knowing which
-              distant vineyards deserve time, capital, and outreach.
+              Chinese premium wine importers, wine-commerce startups, and beverage groups are moving from buying
+              bottles to controlling Western supply, private-label credibility, and acquisition options.
+            </p>
+            <p className="pitch-source-note">
+              Sources: OIV 2024 sector report, USDA FAS China Wine Market Update 2025, Wine Australia Export Report.
             </p>
           </div>
-          <div className="pitch-signal-stack" aria-label="Diligence gaps">
-            <span>Fragmented owner data</span>
-            <span>Opaque harvest risk</span>
-            <span>Slow broker outreach</span>
-            <span>Weak evidence trail</span>
+          <div className="pitch-stat-grid" aria-label="Market evidence">
+            {marketStats.map(([value, label]) => (
+              <div key={value}>
+                <strong>{value}</strong>
+                <span>{label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="pitch-slide pitch-workflow" aria-labelledby="pitch-solution">
+        <div className="pitch-kicker">Problem</div>
+        <div className="pitch-frame">
+          <div>
+            <h2 id="pitch-solution">The buyer cannot fly to every vineyard that looks promising.</h2>
+            <p>
+              A Shanghai buyer needs to know which estates deserve a call before spending weeks on travel,
+              translators, brokers, and diligence. Today, the signal is scattered across owner claims, weather
+              history, parcel condition, export readiness, and local relationships.
+            </p>
+          </div>
+          <ul className="pitch-signal-stack" aria-label="Cross-border deal gaps">
+            {problemGaps.map((gap) => (
+              <li key={gap}>
+                <span>{gap}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="pitch-slide pitch-ai" aria-labelledby="pitch-ai">
         <div className="pitch-kicker">Solution</div>
         <div className="pitch-frame">
           <div>
-            <h2 id="pitch-solution">We turn an expansion brief into a ranked deal room in one day.</h2>
+            <h2 id="pitch-ai">We turn an expansion brief into a ranked deal room in one day.</h2>
             <p>
-              We start with strategy, budget, channels, regions, and deal type. VineScout AI returns ranked
-              vineyards, harvest-risk signals, diligence evidence, memo drafts, and owner outreach.
+              VineScout AI matches buyer goals to 100 fictional Western vineyard opportunities, ranks sourcing,
+              minority investment, and acquisition fit, then opens a diligence room with transparent formulas,
+              harvest-risk signals, OrbitAI Eye-of-God handoff, memo generation, outreach, and alerts.
             </p>
           </div>
           <ol className="pitch-flow" aria-label="VineScout workflow">
@@ -63,15 +101,14 @@ export default function PresentationPage() {
         </div>
       </section>
 
-      <section className="pitch-slide pitch-ai" aria-labelledby="pitch-ai">
-        <div className="pitch-kicker">AI Integration</div>
+      <section className="pitch-slide pitch-market" aria-labelledby="pitch-market">
+        <div className="pitch-kicker">AI Integration / Team</div>
         <div className="pitch-frame">
           <div>
-            <h2 id="pitch-ai">AI is the diligence engine, not a chatbot beside the workflow.</h2>
+            <h2 id="pitch-market">AI turns remote signals into deal action.</h2>
             <p>
-              We combine deterministic scoring with AI reasoning, provenance labels, and an OrbitAI Eye-of-God handoff
-              for premium satellite validation. Harvest-risk prediction is evidence for diligence, not a claim about
-              final wine quality or investment suitability.
+              We explain every score, request satellite-observable harvest-risk evidence, and draft the memo and
+              outreach. Harvest-risk prediction supports diligence, not final wine quality or investment suitability.
             </p>
           </div>
           <div className="pitch-ai-grid">
@@ -81,27 +118,7 @@ export default function PresentationPage() {
                 <span>{copy}</span>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="pitch-slide pitch-market" aria-labelledby="pitch-market">
-        <div className="pitch-kicker">Market / Team</div>
-        <div className="pitch-frame">
-          <div>
-            <h2 id="pitch-market">A narrow wedge into cross-border beverage expansion.</h2>
-            <p>
-              Beachhead users already spend on sourcing, consultants, brokers, travel, compliance, and portfolio
-              diligence. VineScout AI compresses that work into a repeatable operating system for finding, verifying,
-              and winning Western vineyard deals.
-            </p>
-          </div>
-          <div className="pitch-team">
-            <div>
-              <span>Market entry</span>
-              <strong>Chinese premium wine and beverage companies pursuing Western supply control.</strong>
-            </div>
-            <div>
+            <div className="pitch-team-card">
               <span>Team</span>
               <strong>chris + philipp</strong>
               <strong>chris: CTO</strong>

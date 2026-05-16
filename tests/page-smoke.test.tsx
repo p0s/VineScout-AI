@@ -14,9 +14,9 @@ describe("core page smoke", () => {
 
   it("renders the pitch deck route", () => {
     const { container } = render(<PresentationPage />);
-    expect(screen.getByRole("heading", { name: /Remote vineyard deals/i })).toBeInTheDocument();
-    expect(screen.getByText("Problem / ICP")).toBeInTheDocument();
-    expect(screen.getByText("AI Integration")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /China's wine import rebound/i })).toBeInTheDocument();
+    expect(screen.getByText("Market / ICP")).toBeInTheDocument();
+    expect(screen.getByText("AI Integration / Team")).toBeInTheDocument();
     expect(screen.getByText("chris + philipp")).toBeInTheDocument();
     expect(container.querySelectorAll(".pitch-slide")).toHaveLength(4);
   });
