@@ -2,7 +2,7 @@
 
 ## Current state
 
-Working MVP implemented as a Next.js + TypeScript app with 100 seeded vineyard opportunities, deterministic scoring, a Three.js 3D globe map, server-only optional AI providers, OrbitAI handoff, demo-safe local fallbacks, memos, outreach, watchlist alerts, developer API, OpenAPI spec, and repeatable E2E smoke checks.
+Working MVP implemented as a Next.js + TypeScript app with 100 seeded vineyard opportunities, deterministic scoring, a Three.js 3D globe map, server-only optional AI providers, OrbitAI handoff, demo-safe local fallbacks, memos, outreach, watchlist alerts, developer API, OpenAPI spec, repeatable E2E smoke checks, CI, and privacy-history scanning.
 
 ## Backlog
 
@@ -36,6 +36,7 @@ Working MVP implemented as a Next.js + TypeScript app with 100 seeded vineyard o
 - [x] Add preloaded OrbitAI Eye-of-God result for demo reliability.
 - [x] Add pitch-friendly metrics: time saved, risk reduced, next actions.
 - [x] Add concise “why AI is core” section.
+- [x] Add GitHub Actions CI and privacy-history scan.
 
 ### P2 — Nice to have
 

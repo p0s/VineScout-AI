@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
+    "privacy:scan": "node scripts/privacy-scan.mjs",
     "test": "vitest run",
     "test:e2e": "node scripts/e2e-smoke.mjs"
   },
