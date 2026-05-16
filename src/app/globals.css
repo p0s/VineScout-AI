@@ -478,19 +478,17 @@ p {
 }
 
 .satellite-gallery {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.satellite-gallery a {
   background: #f7efe4;
   border: 1px solid var(--line);
   border-radius: 8px;
   color: inherit;
   display: grid;
-  gap: 7px;
+  gap: 8px;
   padding: 8px;
+}
+
+.satellite-gallery-single {
+  text-decoration: none;
 }
 
 .satellite-gallery img {

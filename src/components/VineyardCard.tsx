@@ -36,7 +36,7 @@ export function VineyardCard({ vineyard }: { vineyard: VineyardOpportunity }) {
       <div className="satellite-hover-preview" aria-label={`Mock satellite preview for ${vineyard.name}`}>
         <Image src={preview.imageUrl} alt="" width={224} height={168} sizes="112px" />
         <div>
-          <span className="badge live_public">mock satellite request</span>
+          <span className="badge seeded_demo">mock satellite request</span>
           <strong>{preview.title}</strong>
           <small>{preview.observation}</small>
         </div>

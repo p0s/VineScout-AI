@@ -5,7 +5,7 @@ import Image from "next/image";
 import type { VineyardOpportunity } from "@/lib/types";
 import { seededEyeOfGodResult } from "@/lib/seed-data";
 import { buildEyeOfGodPrompt } from "@/lib/generators";
-import { satellitePreviewsFor } from "@/lib/satellite-imagery";
+import { satellitePreviewFor } from "@/lib/satellite-imagery";
 import { EvidenceBadge } from "./EvidenceBadge";
 
 type StagedEvidence = {
@@ -37,7 +37,7 @@ export function OrbitAiTaskBuilder({
   const [localEvidence, setLocalEvidence] = useState<StagedEvidence | null>(null);
   const [status, setStatus] = useState("Generate a task prompt, run it in Eye of God, then paste the result.");
   const selected = vineyards.find((vineyard) => vineyard.id === selectedId) ?? vineyards[0];
-  const satellitePreviews = satellitePreviewsFor(selected);
+  const satellitePreview = satellitePreviewFor(selected);
 
   function stageLocalEvidence(reason: string) {
     const confidence = paste.toLowerCase().includes("confidence: high") ? 84 : 76;
@@ -140,16 +140,12 @@ export function OrbitAiTaskBuilder({
             </div>
           ))}
         </div>
-        <div className="satellite-gallery">
-          {satellitePreviews.map((preview) => (
-            <a href={preview.sourceUrl} target="_blank" rel="noreferrer" key={preview.id}>
-              <Image src={preview.imageUrl} alt="" width={320} height={240} sizes="(max-width: 900px) 100vw, 220px" />
-              <span className="badge live_public">{preview.provenance}</span>
-              <strong>{preview.title}</strong>
-              <small>{preview.observation}</small>
-            </a>
-          ))}
-        </div>
+        <a className="satellite-gallery satellite-gallery-single" href={satellitePreview.sourceUrl}>
+          <Image src={satellitePreview.imageUrl} alt="" width={900} height={900} sizes="(max-width: 900px) 100vw, 420px" priority />
+          <span className="badge seeded_demo">{satellitePreview.provenance}</span>
+          <strong>{satellitePreview.title}</strong>
+          <small>{satellitePreview.observation}</small>
+        </a>
         <h3>Manual result paste</h3>
         <textarea value={paste} onChange={(event) => setPaste(event.target.value)} />
         <button className="button" type="button" onClick={attachEvidence}>

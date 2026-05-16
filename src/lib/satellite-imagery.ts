@@ -6,7 +6,7 @@ export type SatellitePreview = {
   imageUrl: string;
   sourceUrl: string;
   sourceLabel: string;
-  provenance: "live_public";
+  provenance: "seeded_demo";
   observation: string;
 };
 
@@ -14,28 +14,28 @@ const previews: SatellitePreview[] = [
   {
     id: "vineyard_rows",
     title: "Parcel-row structure",
-    imageUrl: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Aerial_view_of_Vineyards_in_Barossa_Valley.jpg?width=900",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Aerial_view_of_Vineyards_in_Barossa_Valley.jpg",
-    sourceLabel: "Wikimedia Commons aerial vineyard imagery",
-    provenance: "live_public",
+    imageUrl: "/demo/satellite-vineyard-rows.png",
+    sourceUrl: "/demo/satellite-vineyard-rows.png",
+    sourceLabel: "Generated VineScout demo satellite-style image",
+    provenance: "seeded_demo",
     observation: "Use row geometry and parcel breaks as a proxy for block uniformity before ordering premium validation."
   },
   {
     id: "canopy_blocks",
     title: "Canopy color contrast",
-    imageUrl: "https://commons.wikimedia.org/wiki/Special:Redirect/file:Vineyards_in_Napa_Valley_aerial_view.jpg?width=900",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Vineyards_in_Napa_Valley_aerial_view.jpg",
-    sourceLabel: "Wikimedia Commons vineyard aerial view",
-    provenance: "live_public",
+    imageUrl: "/demo/satellite-canopy-blocks.png",
+    sourceUrl: "/demo/satellite-canopy-blocks.png",
+    sourceLabel: "Generated VineScout demo satellite-style image",
+    provenance: "seeded_demo",
     observation: "Compare green-density variation across blocks to flag possible vigor or irrigation inconsistency."
   },
   {
     id: "terrain_exposure",
     title: "Slope and exposure",
-    imageUrl: "https://commons.wikimedia.org/wiki/Special:Redirect/file:Vineyards_near_Saint-Emilion_aerial_view.jpg?width=900",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Vineyards_near_Saint-Emilion_aerial_view.jpg",
-    sourceLabel: "Wikimedia Commons vineyard landscape",
-    provenance: "live_public",
+    imageUrl: "/demo/satellite-terrain-exposure.png",
+    sourceUrl: "/demo/satellite-terrain-exposure.png",
+    sourceLabel: "Generated VineScout demo satellite-style image",
+    provenance: "seeded_demo",
     observation: "Check terrain exposure and neighboring parcel context before spending on travel or broker diligence."
   }
 ];
