@@ -8,7 +8,8 @@ const pages = [
   ["/app/vineyards/domaine-valclaire", "Domaine Valclaire"],
   ["/app/orbitai", "Eye-of-God manual handoff"],
   ["/app/memos", "Deal memo"],
-  ["/app/api-playground", "SDK snippet"]
+  ["/app/api-playground", "SDK snippet"],
+  ["/presentation", "Remote vineyard deals need evidence before outreach."]
 ];
 
 const apiChecks = [

@@ -6,7 +6,8 @@ const links = [
   ["Search", "/app/search"],
   ["OrbitAI", "/app/orbitai"],
   ["Memos", "/app/memos"],
-  ["API", "/app/api-playground"]
+  ["API", "/app/api-playground"],
+  ["Deck", "/presentation"]
 ];
 
 export function AppHeader() {

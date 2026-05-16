@@ -22,6 +22,9 @@ export default function LandingPage() {
               <Link className="button secondary" href="/app/search">
                 View ranked opportunities
               </Link>
+              <Link className="button secondary" href="/presentation">
+                Pitch deck
+              </Link>
             </div>
           </div>
         </section>

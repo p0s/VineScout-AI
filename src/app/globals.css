@@ -640,6 +640,181 @@ button:disabled {
   opacity: 0.45;
 }
 
+.pitch-deck {
+  background: #0b1110;
+  color: #f7f2ea;
+  height: 100svh;
+  min-height: 100svh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+.pitch-deck p {
+  color: rgba(247, 242, 234, 0.74);
+  font-size: 1.05rem;
+  max-width: 720px;
+}
+
+.pitch-nav {
+  align-items: center;
+  background: rgba(11, 17, 16, 0.76);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(247, 242, 234, 0.12);
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  padding: 16px 28px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 40;
+}
+
+.pitch-nav a {
+  color: #f7f2ea;
+  font-weight: 900;
+}
+
+.pitch-nav div {
+  display: flex;
+  gap: 18px;
+}
+
+.pitch-slide {
+  align-items: center;
+  background:
+    linear-gradient(120deg, rgba(11, 17, 16, 0.96), rgba(27, 26, 23, 0.86)),
+    linear-gradient(90deg, rgba(191, 139, 48, 0.12), transparent 42%);
+  display: grid;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 104px 56px 56px;
+  position: relative;
+  scroll-snap-align: start;
+}
+
+.pitch-hero {
+  background:
+    linear-gradient(90deg, rgba(11, 17, 16, 0.95), rgba(11, 17, 16, 0.64) 62%, rgba(11, 17, 16, 0.38)),
+    url("https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=2200&q=80");
+  background-position: center;
+  background-size: cover;
+}
+
+.pitch-workflow {
+  background:
+    linear-gradient(90deg, rgba(9, 31, 26, 0.98), rgba(18, 28, 42, 0.93)),
+    repeating-linear-gradient(90deg, rgba(247, 242, 234, 0.08) 0 1px, transparent 1px 120px);
+}
+
+.pitch-ai {
+  background:
+    linear-gradient(120deg, rgba(24, 18, 28, 0.98), rgba(18, 37, 49, 0.94)),
+    repeating-linear-gradient(0deg, rgba(247, 242, 234, 0.07) 0 1px, transparent 1px 96px);
+}
+
+.pitch-market {
+  background:
+    linear-gradient(130deg, rgba(31, 18, 20, 0.98), rgba(31, 42, 29, 0.94)),
+    linear-gradient(90deg, rgba(191, 139, 48, 0.18), transparent);
+}
+
+.pitch-kicker {
+  color: #d7a447;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  position: absolute;
+  text-transform: uppercase;
+  top: 92px;
+}
+
+.pitch-frame {
+  align-items: center;
+  display: grid;
+  gap: 36px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.72fr);
+  max-width: 1180px;
+  width: 100%;
+}
+
+.pitch-frame h1,
+.pitch-frame h2 {
+  color: #fffaf2;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 3.55rem;
+  line-height: 1;
+  max-width: 800px;
+}
+
+.pitch-signal-stack,
+.pitch-ai-grid,
+.pitch-team {
+  border-left: 1px solid rgba(247, 242, 234, 0.22);
+  display: grid;
+  gap: 14px;
+  padding-left: 22px;
+}
+
+.pitch-signal-stack span,
+.pitch-ai-grid div,
+.pitch-team div {
+  border-top: 1px solid rgba(247, 242, 234, 0.18);
+  color: rgba(247, 242, 234, 0.86);
+  display: grid;
+  gap: 5px;
+  padding-top: 14px;
+}
+
+.pitch-flow {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pitch-flow li {
+  align-items: center;
+  border-top: 1px solid rgba(247, 242, 234, 0.18);
+  color: #fffaf2;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 56px 1fr;
+  min-height: 70px;
+}
+
+.pitch-flow strong {
+  color: #d7a447;
+  font-size: 0.8rem;
+}
+
+.pitch-flow span {
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.pitch-ai-grid strong,
+.pitch-team strong {
+  color: #fffaf2;
+  font-size: 1.1rem;
+}
+
+.pitch-ai-grid span,
+.pitch-team span {
+  color: #d7a447;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pitch-team .button {
+  justify-content: center;
+  margin-top: 10px;
+}
+
 @media print {
   .site-header,
   .demo-banner,
@@ -698,6 +873,20 @@ button:disabled {
   .split {
     grid-template-columns: 1fr;
   }
+
+  .pitch-frame {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+
+  .pitch-frame h1,
+  .pitch-frame h2 {
+    font-size: 2.75rem;
+  }
+
+  .pitch-slide {
+    padding: 104px 26px 44px;
+  }
 }
 
 @media (max-width: 700px) {
@@ -753,5 +942,32 @@ button:disabled {
   .hero {
     min-height: 78svh;
     padding: 44px 22px;
+  }
+
+  .pitch-nav {
+    padding: 13px 18px;
+  }
+
+  .pitch-nav div {
+    gap: 12px;
+  }
+
+  .pitch-frame h1,
+  .pitch-frame h2 {
+    font-size: 2.1rem;
+  }
+
+  .pitch-deck p {
+    font-size: 0.98rem;
+  }
+
+  .pitch-kicker {
+    top: 78px;
+  }
+
+  .pitch-signal-stack,
+  .pitch-ai-grid,
+  .pitch-team {
+    padding-left: 16px;
   }
 }
