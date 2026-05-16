@@ -22,6 +22,13 @@ const apiChecks = [
   ["POST", "/api/outreach", { opportunityId: "domaine-valclaire" }]
 ];
 
+const staticAssetChecks = [
+  ["/demo/satellite-vineyard-rows.png", "image/"],
+  ["/demo/satellite-canopy-blocks.png", "image/"],
+  ["/demo/satellite-terrain-exposure.png", "image/"],
+  ["/demo/vinescout-ai-demo.mp4", "video/"]
+];
+
 async function readText(path, init) {
   const response = await fetch(`${baseUrl}${path}`, init);
   const text = await response.text();
@@ -47,6 +54,16 @@ for (const [method, path, body] of apiChecks) {
   assert(response.ok, `${method} ${path} returned ${response.status}: ${text.slice(0, 160)}`);
 }
 
+for (const [path, contentTypePrefix] of staticAssetChecks) {
+  const response = await fetch(`${baseUrl}${path}`, { method: "HEAD" });
+  const contentType = response.headers.get("content-type") ?? "";
+  assert(response.ok, `${path} returned ${response.status}`);
+  assert(
+    contentType.startsWith(contentTypePrefix),
+    `${path} returned unexpected content type ${contentType || "(none)"}`
+  );
+}
+
 for (const [path, body] of [
   ["/api/buyer-profile", { companyName: "E2E Demo Importer" }],
   ["/api/orbitai/evidence", { opportunityId: "domaine-valclaire", rawText: "Confidence: high. E2E evidence paste." }],
@@ -67,6 +84,7 @@ console.log(
       baseUrl,
       pages: pages.length,
       apiChecks: apiChecks.length,
+      staticAssetChecks: staticAssetChecks.length,
       protectedWritePolicy: "anonymous hosted writes return 401 or 503; local dev may return 200"
     },
     null,

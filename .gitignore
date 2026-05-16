@@ -54,6 +54,7 @@ private/
 *.jpeg
 *.heic
 *.gif
+!public/demo/*.png
 playwright-report/
 test-results/
 screenshots/

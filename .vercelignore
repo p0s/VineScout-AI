@@ -51,6 +51,7 @@ test-results/
 *.webm
 !public/demo/
 !public/demo/*.mp4
+!public/demo/*.png
 
 *_OUTLINE.md
 *_SCRIPT.md
