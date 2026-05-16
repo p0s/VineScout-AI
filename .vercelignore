@@ -49,6 +49,8 @@ test-results/
 *.wav
 *.mp3
 *.webm
+!public/demo/
+!public/demo/*.mp4
 
 *_OUTLINE.md
 *_SCRIPT.md
