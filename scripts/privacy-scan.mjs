@@ -30,8 +30,8 @@ function git(args) {
   return execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
 }
 
-function isText(buffer) {
-  return !buffer.includes(0);
+function searchableContent(buffer) {
+  return buffer.includes(0) ? buffer.toString("latin1") : buffer.toString("utf8");
 }
 
 function listTrackedFiles() {
@@ -61,9 +61,7 @@ function scanCurrentTree(findings) {
     } catch {
       continue;
     }
-    if (!isText(buffer)) continue;
-
-    const content = buffer.toString("utf8");
+    const content = searchableContent(buffer);
     for (const check of contentChecks) {
       if (check.pattern.test(content)) {
         findings.push({ scope: "tree", label: check.label, file });
@@ -97,9 +95,7 @@ function scanReachableHistory(findings) {
       } catch {
         continue;
       }
-      if (!isText(buffer)) continue;
-
-      const content = buffer.toString("utf8");
+      const content = searchableContent(buffer);
       for (const check of contentChecks) {
         if (check.pattern.test(content)) {
           findings.push({ scope: "history", label: check.label, commit: commit.slice(0, 12), file });

@@ -47,6 +47,8 @@ private/
 *.wav
 *.mp3
 *.webm
+!public/demo/
+!public/demo/*.mp4
 *.png
 *.jpg
 *.jpeg

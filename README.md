@@ -2,6 +2,8 @@
 
 AI vineyard diligence for Chinese premium wine expansion.
 
+[Watch the demo video](public/demo/vinescout-ai-demo.mp4) · [Open the pitch deck](https://vinescout-ai.vercel.app/presentation) · [Open the live demo](https://vinescout-ai.vercel.app/app)
+
 VineScout AI helps Chinese premium wine importers, beverage/DTC startups, and strategic investors identify Western vineyard supply, investment, and acquisition opportunities. It ranks opportunities, predicts harvest risk from satellite/weather proxies, generates OrbitAI Eye-of-God validation tasks, and turns the result into deal memos and outreach.
 
 ## MVP features
