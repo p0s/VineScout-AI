@@ -640,14 +640,16 @@ button:disabled {
   opacity: 0.45;
 }
 
+html:has(.pitch-deck) {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
 .pitch-deck {
   background: #0b1110;
   color: #f7f2ea;
-  height: 100svh;
   min-height: 100svh;
   overflow-x: hidden;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
 }
 
 .pitch-deck p {
@@ -679,6 +681,85 @@ button:disabled {
 .pitch-nav div {
   display: flex;
   gap: 18px;
+}
+
+.pitch-controls {
+  align-items: center;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(3, 28px);
+  grid-template-rows: repeat(3, 28px);
+  justify-items: center;
+  left: 50%;
+  position: fixed;
+  top: 10px;
+  transform: translateX(-50%);
+  z-index: 45;
+}
+
+.pitch-arrow,
+.pitch-counter {
+  align-items: center;
+  backdrop-filter: blur(14px);
+  background: rgba(11, 17, 16, 0.58);
+  border: 1px solid rgba(247, 242, 234, 0.2);
+  color: rgba(247, 242, 234, 0.9);
+  display: inline-flex;
+  justify-content: center;
+}
+
+.pitch-arrow {
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  height: 28px;
+  padding: 0;
+  text-decoration: none;
+  width: 28px;
+}
+
+.pitch-arrow:hover:not(.is-disabled):not(:disabled) {
+  background: rgba(215, 164, 71, 0.2);
+  border-color: rgba(215, 164, 71, 0.55);
+  color: #fffaf2;
+}
+
+.pitch-arrow.is-disabled {
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.pitch-arrow-up {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.pitch-arrow-left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.pitch-counter {
+  border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 900;
+  grid-column: 2;
+  grid-row: 2;
+  height: 28px;
+  letter-spacing: 0.04em;
+  min-width: 46px;
+  padding: 0 7px;
+  white-space: nowrap;
+}
+
+.pitch-arrow-right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.pitch-arrow-down {
+  grid-column: 2;
+  grid-row: 3;
 }
 
 .pitch-slide {
@@ -1071,6 +1152,12 @@ button:disabled {
 
   .pitch-nav div {
     gap: 12px;
+  }
+
+  .pitch-controls {
+    top: 8px;
+    transform: translateX(-50%) scale(0.88);
+    transform-origin: top center;
   }
 
   .pitch-frame h1,

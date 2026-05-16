@@ -18,6 +18,9 @@ describe("core page smoke", () => {
     expect(screen.getByText("Market / ICP")).toBeInTheDocument();
     expect(screen.getByText("AI Integration / Team")).toBeInTheDocument();
     expect(screen.getByText("chris + philipp")).toBeInTheDocument();
+    expect(screen.getByText("01 / 04")).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "Next slide" })).toHaveLength(2);
+    expect(screen.getAllByRole("button", { name: "Previous slide" })).toHaveLength(2);
     expect(container.querySelectorAll(".pitch-slide")).toHaveLength(4);
   });
 });

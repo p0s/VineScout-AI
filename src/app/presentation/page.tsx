@@ -21,6 +21,8 @@ const aiLayers = [
   ["Deal outputs", "memo, checklist, outreach, and alerts from one evidence trail"]
 ];
 
+const slideIds = ["market", "problem", "solution", "ai-integration"];
+
 export default function PresentationPage() {
   return (
     <main className="pitch-deck" aria-label="VineScout AI pitch deck">
@@ -28,13 +30,110 @@ export default function PresentationPage() {
         <Link href="/" aria-label="VineScout AI home">
           VineScout AI
         </Link>
+        <div className="pitch-controls" aria-label="Slide navigation">
+          <button
+            aria-label="Previous slide"
+            className="pitch-arrow pitch-arrow-left"
+            data-pitch-step="-1"
+            disabled
+            type="button"
+          >
+            ←
+          </button>
+          <button
+            aria-label="Previous slide"
+            className="pitch-arrow pitch-arrow-up"
+            data-pitch-step="-1"
+            disabled
+            type="button"
+          >
+            ↑
+          </button>
+          <span className="pitch-counter" data-pitch-counter aria-live="polite">
+            01 / 04
+          </span>
+          <button aria-label="Next slide" className="pitch-arrow pitch-arrow-down" data-pitch-step="1" type="button">
+            ↓
+          </button>
+          <button aria-label="Next slide" className="pitch-arrow pitch-arrow-right" data-pitch-step="1" type="button">
+            →
+          </button>
+        </div>
         <div>
           <Link href="/app">Demo</Link>
           <Link href="/app/search">Product</Link>
         </div>
       </nav>
 
-      <section className="pitch-slide pitch-hero" aria-labelledby="pitch-problem">
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+(() => {
+  if (window.__vinescoutPitchCleanup) window.__vinescoutPitchCleanup();
+  const ids = ${JSON.stringify(slideIds)};
+  const counter = document.querySelector("[data-pitch-counter]");
+  const previousButtons = document.querySelectorAll("[data-pitch-step='-1']");
+  const nextButtons = document.querySelectorAll("[data-pitch-step='1']");
+  const cleanup = [];
+  const current = () => Math.min(Math.max(Math.round(window.scrollY / Math.max(window.innerHeight, 1)), 0), ids.length - 1);
+  const update = () => {
+    const index = current();
+    if (counter) counter.textContent = String(index + 1).padStart(2, "0") + " / " + String(ids.length).padStart(2, "0");
+    previousButtons.forEach((button) => button.toggleAttribute("disabled", index === 0));
+    nextButtons.forEach((button) => button.toggleAttribute("disabled", index === ids.length - 1));
+  };
+  const go = (index) => {
+    const nextIndex = Math.min(Math.max(index, 0), ids.length - 1);
+    const slide = document.getElementById(ids[nextIndex]);
+    if (!slide) return;
+    slide.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", "#" + ids[nextIndex]);
+    setTimeout(update, 180);
+  };
+  document.querySelectorAll("[data-pitch-step]").forEach((button) => {
+    const clickHandler = () => go(current() + Number(button.getAttribute("data-pitch-step")));
+    button.addEventListener("click", clickHandler);
+    cleanup.push(() => button.removeEventListener("click", clickHandler));
+  });
+  const keyHandler = (event) => {
+    const active = document.activeElement;
+    const isTyping = active && (
+      active.tagName === "INPUT" ||
+      active.tagName === "TEXTAREA" ||
+      active.tagName === "SELECT" ||
+      active.getAttribute("contenteditable") === "true"
+    );
+    if (isTyping) return;
+    if (["ArrowDown", "ArrowRight", "PageDown", " "].includes(event.key)) {
+      event.preventDefault();
+      go(current() + 1);
+    }
+    if (["ArrowUp", "ArrowLeft", "PageUp"].includes(event.key)) {
+      event.preventDefault();
+      go(current() - 1);
+    }
+    if (event.key === "Home") {
+      event.preventDefault();
+      go(0);
+    }
+    if (event.key === "End") {
+      event.preventDefault();
+      go(ids.length - 1);
+    }
+  };
+  const scrollHandler = () => window.requestAnimationFrame(update);
+  window.addEventListener("keydown", keyHandler);
+  window.addEventListener("scroll", scrollHandler, { passive: true });
+  cleanup.push(() => window.removeEventListener("keydown", keyHandler));
+  cleanup.push(() => window.removeEventListener("scroll", scrollHandler));
+  window.__vinescoutPitchCleanup = () => cleanup.forEach((dispose) => dispose());
+  update();
+})();
+`
+        }}
+      />
+
+      <section id={slideIds[0]} className="pitch-slide pitch-hero" aria-labelledby="pitch-problem">
         <div className="pitch-kicker">Market / ICP</div>
         <div className="pitch-frame">
           <div>
@@ -58,7 +157,7 @@ export default function PresentationPage() {
         </div>
       </section>
 
-      <section className="pitch-slide pitch-workflow" aria-labelledby="pitch-solution">
+      <section id={slideIds[1]} className="pitch-slide pitch-workflow" aria-labelledby="pitch-solution">
         <div className="pitch-kicker">Problem</div>
         <div className="pitch-frame">
           <div>
@@ -79,7 +178,7 @@ export default function PresentationPage() {
         </div>
       </section>
 
-      <section className="pitch-slide pitch-ai" aria-labelledby="pitch-ai">
+      <section id={slideIds[2]} className="pitch-slide pitch-ai" aria-labelledby="pitch-ai">
         <div className="pitch-kicker">Solution</div>
         <div className="pitch-frame">
           <div>
@@ -101,7 +200,7 @@ export default function PresentationPage() {
         </div>
       </section>
 
-      <section className="pitch-slide pitch-market" aria-labelledby="pitch-market">
+      <section id={slideIds[3]} className="pitch-slide pitch-market" aria-labelledby="pitch-market">
         <div className="pitch-kicker">AI Integration / Team</div>
         <div className="pitch-frame">
           <div>
