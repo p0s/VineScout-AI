@@ -1016,6 +1016,26 @@ html:has(.pitch-deck) {
   margin-top: 10px;
 }
 
+.pitch-link-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pitch-link-grid a {
+  align-items: center;
+  background: rgba(9, 17, 33, 0.82);
+  border: 1px solid rgba(247, 242, 234, 0.16);
+  border-radius: 8px;
+  color: #fffaf2;
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  justify-content: center;
+  min-height: 42px;
+  padding: 8px;
+}
+
 @media print {
   .site-header,
   .demo-banner,

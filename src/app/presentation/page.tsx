@@ -223,9 +223,16 @@ export default function PresentationPage() {
               <strong>chris: CTO</strong>
               <strong>philipp: Business Development Sales and Marketing</strong>
             </div>
-            <Link className="button" href="/app">
-              Open live demo
-            </Link>
+            <div className="pitch-link-grid" aria-label="Submission links">
+              <a href="https://vinescout-ai.vercel.app" target="_blank" rel="noreferrer">
+                Website
+              </a>
+              <a href="/demo/vinescout-ai-demo.mp4">Video</a>
+              <a href="https://github.com/p0s/VineScout-AI" target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+              <Link href="/app">Demo</Link>
+            </div>
           </div>
         </div>
       </section>
